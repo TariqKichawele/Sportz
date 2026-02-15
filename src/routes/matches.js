@@ -33,12 +33,13 @@ matchesRouter.get('/', async (req, res) => {
 
 matchesRouter.post('/', async (req, res) => {
     const parsed = createMatchSchema.safeParse(req.body);
-    const { data: { startTime, endTime, homeScore, awayScore }} = parsed;
 
     if (!parsed.success) {
         res.status(400).json({ message: parsed.error.message });
         return;
     }
+
+    const { data: { startTime, endTime, homeScore, awayScore }} = parsed;
 
     try {
         const [event] = await db.insert(matches).values({
